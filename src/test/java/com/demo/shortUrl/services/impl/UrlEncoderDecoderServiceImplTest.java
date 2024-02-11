@@ -68,7 +68,7 @@ public class UrlEncoderDecoderServiceImplTest {
         when(this.urlShort.getProtocol()).thenReturn(PROT_STR);
         UrlEncodeDto urlEncodeDto= this.urlEncoderDecoderService.encode(urlDecodeDto);
         assertNotNull(urlEncodeDto);
-        assertEquals(urlEncodeDto.getEncodedUrl(), ENCODED_URL_2);;
+        assertEquals(urlEncodeDto.getEncodedUrl(), ENCODED_URL_2);
         verify(this.urlShortEncoderService, atLeastOnce()).encodeUrl(ORIGINAL_URL_2);
     }
 
