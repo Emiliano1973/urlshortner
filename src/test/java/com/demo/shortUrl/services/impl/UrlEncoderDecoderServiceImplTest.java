@@ -74,7 +74,7 @@ public class UrlEncoderDecoderServiceImplTest {
         when(this.urlShort.getProtocol()).thenReturn(PROT_STR);
         UrlEncodeDto urlEncodeDto= this.urlEncoderDecoderService.encode(urlDecodeDto);
         assertNotNull(urlEncodeDto);
-        assertEquals(urlEncodeDto.getEncodedUrl(), ENCODED_URL_2);
+        assertEquals( ENCODED_URL_2, urlEncodeDto.getEncodedUrl());
         verify(this.urlShortEncoderService, atLeastOnce()).encodeUrl(ORIGINAL_URL_2);
     }
 
@@ -99,6 +99,6 @@ public class UrlEncoderDecoderServiceImplTest {
         when(this.urlShortRepository.countByGeneratedUrl(ENCODED_URL_2)).thenReturn(Integer.valueOf(1));
         Optional<UrlDecodeDto> decodeDtoOptional=this.urlEncoderDecoderService.decode(urlEncodeDto);
         assertFalse(decodeDtoOptional.isEmpty());
-        assertEquals(decodeDtoOptional.get().getDecodedUrl(), ORIGINAL_URL_2);
+        assertEquals(ORIGINAL_URL_2, decodeDtoOptional.get().getDecodedUrl() );
     }
 }
