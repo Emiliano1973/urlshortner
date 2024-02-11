@@ -12,7 +12,7 @@ import java.util.Base64;
 @Component
 public class UrlShortEncoderServiceImpl implements UrlShortEncoderService {
     @Override
-    public String encodeUrl(String encode) {
+    public String encodeUrl(final String encode) {
         String encodedUrl = null;
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA3-256");

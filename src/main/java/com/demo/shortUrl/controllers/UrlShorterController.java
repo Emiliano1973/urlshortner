@@ -25,7 +25,6 @@ public class UrlShorterController {
         return this.urlEncoderDecoderService.encode(urlDecodeDto);
     }
 
-
     @GetMapping(value = "/decode", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> decode(@RequestParam("urlEncoded") String urlEncoded) {
         Optional<UrlDecodeDto> urlDecodeDtoOpt = this.urlEncoderDecoderService.decode(new UrlEncodeDto(urlEncoded));

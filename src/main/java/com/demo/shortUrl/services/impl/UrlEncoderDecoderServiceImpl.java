@@ -7,7 +7,6 @@ import com.demo.shortUrl.repositories.UrlShortRepository;
 import com.demo.shortUrl.services.UrlEncoderDecoderService;
 import com.demo.shortUrl.services.UrlShortEncoderService;
 import jakarta.transaction.Transactional;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +42,7 @@ public class UrlEncoderDecoderServiceImpl implements UrlEncoderDecoderService {
     @Override
     @Transactional(Transactional.TxType.NOT_SUPPORTED)
     @Cacheable(value = "decode_cache", key = "#urlEncodeDto.encodedUrl", unless = "#result==null")
-    public Optional<UrlDecodeDto> decode(UrlEncodeDto urlEncodeDto) {
+    public Optional<UrlDecodeDto> decode(final UrlEncodeDto urlEncodeDto) {
         if (this.urlShortRepository.countByGeneratedUrl(urlEncodeDto.getEncodedUrl()) == 0) {
             return Optional.empty();
         }
@@ -51,7 +50,7 @@ public class UrlEncoderDecoderServiceImpl implements UrlEncoderDecoderService {
         return Optional.of(new UrlDecodeDto(urlShort.getOriginalUrl(), urlShort.getProtocol()));
     }
 
-    private UrlEncodeDto getEncodeBeanByOriginalUrl(String originalUrl) {
+    private UrlEncodeDto getEncodeBeanByOriginalUrl(final String originalUrl) {
         UrlShort urlShort = this.urlShortRepository.findByOriginalUrl(originalUrl);
         return new UrlEncodeDto(urlShort.getGeneratedUrl(), urlShort.getProtocol());
     }
