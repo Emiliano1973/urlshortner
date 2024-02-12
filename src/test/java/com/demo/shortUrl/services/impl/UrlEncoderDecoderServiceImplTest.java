@@ -26,10 +26,8 @@ class UrlEncoderDecoderServiceImplTest {
 
     private static final String ORIGINAL_URL_1="originalUrl1";
     private static final String ENCODED_URL_1="encodedUrl1";
-
     private static final String ORIGINAL_URL_2="originalUrl2";
     private static final String ENCODED_URL_2="encodedUrl2";
-
 
     private static final String PROT_STR="http://";
 
@@ -56,7 +54,7 @@ class UrlEncoderDecoderServiceImplTest {
      void whenTheUrlIsNeededTobeEncodedIfItIsAlreadyStoredThenReturnTtFromDB() throws Exception{
         when(urlDecodeDto.getDecodedUrl()).thenReturn(ORIGINAL_URL_1);
         when(this.urlShortRepository.countByOriginalUrl(ORIGINAL_URL_1)).thenReturn(Integer.valueOf(1));
-       when(this.urlShortRepository.findByOriginalUrl(ORIGINAL_URL_1)).thenReturn(this.urlShort);
+        when(this.urlShortRepository.findByOriginalUrl(ORIGINAL_URL_1)).thenReturn(this.urlShort);
         when(this.urlShort.getGeneratedUrl()).thenReturn(ENCODED_URL_1);
         when(this.urlShort.getProtocol()).thenReturn(PROT_STR);
         this.urlEncoderDecoderService.encode(urlDecodeDto);
@@ -77,13 +75,12 @@ class UrlEncoderDecoderServiceImplTest {
 
 
     @Test
-     void whenTheUrlIsNeededTobeDecodedButItsNotStoredThenItShouldReturnOptionalEmpty(){
+     void whenTheUrlIsNeededTobeDecodedButItsNotStoredThenItShouldReturnOptionalEmpty() throws Exception{
         when(this.urlEncodeDto.getEncodedUrl()).thenReturn(ENCODED_URL_1);
-      //when(this.urlEncodeDto.getProtocol()).thenReturn(PROT_STR);
-      when(this.urlShortRepository.countByGeneratedUrl(ENCODED_URL_1)).thenReturn(Integer.valueOf(0));
+        when(this.urlShortRepository.countByGeneratedUrl(ENCODED_URL_1)).thenReturn(Integer.valueOf(0));
         Optional<UrlDecodeDto> decodeDtoOptional=this.urlEncoderDecoderService.decode(urlEncodeDto);
         assertTrue(decodeDtoOptional.isEmpty());
-      verify(this.urlShortRepository, never()).findByGeneratedUrl(ENCODED_URL_1);
+        verify(this.urlShortRepository, never()).findByGeneratedUrl(ENCODED_URL_1);
 
     }
 
