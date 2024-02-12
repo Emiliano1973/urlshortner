@@ -18,14 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class UrlEncoderDecoderServiceImplTest {
+class UrlEncoderDecoderServiceImplTest {
 
     private static final String ORIGINAL_URL_1="originalUrl1";
     private static final String ENCODED_URL_1="encodedUrl1";
@@ -56,7 +53,7 @@ public class UrlEncoderDecoderServiceImplTest {
     private UrlShort urlShort;
 
     @Test
-    public void whenTheUrlIsNeededTobeEncodedIfItIsAlreadyStoredThenReturnTtFromDB() throws Exception{
+     void whenTheUrlIsNeededTobeEncodedIfItIsAlreadyStoredThenReturnTtFromDB() throws Exception{
         when(urlDecodeDto.getDecodedUrl()).thenReturn(ORIGINAL_URL_1);
         when(this.urlShortRepository.countByOriginalUrl(ORIGINAL_URL_1)).thenReturn(Integer.valueOf(1));
        when(this.urlShortRepository.findByOriginalUrl(ORIGINAL_URL_1)).thenReturn(this.urlShort);
@@ -66,7 +63,7 @@ public class UrlEncoderDecoderServiceImplTest {
         verify(this.urlShortEncoderService, never()).encodeUrl(ORIGINAL_URL_1);
     }
     @Test
-    public void whenTheUrlIsNeededTobeEncodedIfItIsNotAlreadyStoredThenReturnTtFromDB() throws Exception{
+    void whenTheUrlIsNeededTobeEncodedIfItIsNotAlreadyStoredThenReturnTtFromDB() throws Exception{
         when(this.urlDecodeDto.getDecodedUrl()).thenReturn(ORIGINAL_URL_2);
         when(this.urlShortRepository.countByOriginalUrl(ORIGINAL_URL_2)).thenReturn(Integer.valueOf(0));
         when(this.urlShortEncoderService.encodeUrl(ORIGINAL_URL_2)).thenReturn(ENCODED_URL_2);
@@ -75,12 +72,12 @@ public class UrlEncoderDecoderServiceImplTest {
         UrlEncodeDto urlEncodeDto= this.urlEncoderDecoderService.encode(urlDecodeDto);
         assertNotNull(urlEncodeDto);
         assertEquals( ENCODED_URL_2, urlEncodeDto.getEncodedUrl());
-        verify(this.urlShortEncoderService, atLeastOnce()).encodeUrl(ORIGINAL_URL_2);
+        verify(this.urlShortEncoderService, times(1)).encodeUrl(ORIGINAL_URL_2);
     }
 
 
     @Test
-    public void whenTheUrlIsNeededTobeDecodedButItsNotStoredThenItShouldReturnOptionalEmpty(){
+     void whenTheUrlIsNeededTobeDecodedButItsNotStoredThenItShouldReturnOptionalEmpty(){
         when(this.urlEncodeDto.getEncodedUrl()).thenReturn(ENCODED_URL_1);
       //when(this.urlEncodeDto.getProtocol()).thenReturn(PROT_STR);
       when(this.urlShortRepository.countByGeneratedUrl(ENCODED_URL_1)).thenReturn(Integer.valueOf(0));
@@ -91,7 +88,7 @@ public class UrlEncoderDecoderServiceImplTest {
     }
 
     @Test
-    public void whenTheUrlIsNeededTobeDecodedAndtStoredThenItShouldReturnOptionalFull(){
+    void whenTheUrlIsNeededTobeDecodedAndtStoredThenItShouldReturnOptionalFull(){
         when(this.urlShortRepository.findByGeneratedUrl(ENCODED_URL_2)).thenReturn(this.urlShort);
         when(this.urlEncodeDto.getEncodedUrl()).thenReturn(ENCODED_URL_2);
         when(this.urlEncodeDto.getProtocol()).thenReturn(PROT_STR);

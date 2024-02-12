@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class UrlShortEncoderServiceImplTest {
+class UrlShortEncoderServiceImplTest {
 
     private static final String URL_DECODED="URI_DECODED";
 
@@ -20,10 +20,8 @@ public class UrlShortEncoderServiceImplTest {
     private UrlShortEncoderService urlShortEncoderService;
 
     @Test
-    public void urlInInputShouldBeConvertedInAShortUrl() throws Exception{
-
+     void urlInInputShouldBeConvertedInAShortUrl() throws Exception{
         String encoded=this.urlShortEncoderService.encodeUrl(URL_DECODED);
-
         assertNotNull(encoded);
         assertEquals(8, encoded.length());
 
