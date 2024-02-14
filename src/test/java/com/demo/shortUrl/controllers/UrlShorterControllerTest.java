@@ -48,7 +48,7 @@ public class UrlShorterControllerTest {
     public void shouldReturnEncodedUrl() throws Exception {
         UrlDecodeDto urlDecodeDto = new UrlDecodeDto(DECODED_URL);
         when(this.urlEncoderDecoderService.encode(urlDecodeDto)).thenReturn(new UrlEncodeDto(ENCODED_URL));
-        mockMvc.perform(post("/urlshortner/encode")
+        this.mockMvc.perform(post("/urlshortner/encode")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(this.objectMapper.writeValueAsString(urlDecodeDto))
                         .accept(MediaType.APPLICATION_JSON_VALUE))
@@ -62,7 +62,7 @@ public class UrlShorterControllerTest {
     public void shouldReturnDecodedUrl() throws Exception {
         UrlEncodeDto urlEncodeDto = new UrlEncodeDto(ENCODED_URL);
         when(this.urlEncoderDecoderService.decode(urlEncodeDto)).thenReturn(Optional.of(new UrlDecodeDto(DECODED_URL)));
-        mockMvc.perform(get("/urlshortner/decode").param("urlEncoded", ENCODED_URL)
+       this. mockMvc.perform(get("/urlshortner/decode").param("urlEncoded", ENCODED_URL)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andExpect(content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

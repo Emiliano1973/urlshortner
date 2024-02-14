@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/urlshortner")
 public class UrlShorterController {
@@ -32,7 +30,7 @@ public class UrlShorterController {
 
     @GetMapping(value = "/decode", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> decode(@RequestParam("urlEncoded") String urlEncoded) {
-        Optional<UrlDecodeDto> urlDecodeDtoOpt = this.urlEncoderDecoderService.decode(new UrlEncodeDto(urlEncoded));
+        var urlDecodeDtoOpt = this.urlEncoderDecoderService.decode(new UrlEncodeDto(urlEncoded));
         return ResponseEntity.of(urlDecodeDtoOpt);
     }
 }

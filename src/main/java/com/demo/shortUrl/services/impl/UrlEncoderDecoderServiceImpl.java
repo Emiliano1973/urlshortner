@@ -7,9 +7,14 @@ import com.demo.shortUrl.repositories.UrlShortRepository;
 import com.demo.shortUrl.services.UrlEncoderDecoderService;
 import com.demo.shortUrl.services.UrlShortEncoderService;
 import jakarta.transaction.Transactional;
+import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Optional;
 
 @Service
@@ -64,14 +69,19 @@ public class UrlEncoderDecoderServiceImpl implements UrlEncoderDecoderService {
         }
         return HTTP_PROT;
     }
-    private String sanitizeURL(String url) {
+
+    private String sanitizeURL(final String url) {
+        if ((!url.startsWith(HTTP_PROT)) && (!url.startsWith(HTTPS_PROT))){
+            throw new IllegalArgumentException("Error, ["+url+"] is not a valid url");
+        }
+        String urlReturn=null;
         if (url.startsWith(HTTP_PROT))
-            url = url.substring(7);
+            urlReturn= url.substring(7);
         if (url.startsWith(HTTPS_PROT))
-            url = url.substring(8);
+            urlReturn= url.substring(8);
         if (url.charAt(url.length() - 1) == '/')
-            url = url.substring(0, url.length() - 1);
-        return url;
+            urlReturn = url.substring(0, url.length() - 1);
+        return urlReturn;
     }
 
 

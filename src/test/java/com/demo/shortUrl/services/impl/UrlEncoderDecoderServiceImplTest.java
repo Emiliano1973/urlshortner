@@ -27,12 +27,14 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class UrlEncoderDecoderServiceImplTest {
 
-    private static final String ORIGINAL_URL_1="originalUrl1";
-    private static final String ENCODED_URL_1="encodedUrl1";
-    private static final String ORIGINAL_URL_2="originalUrl2";
-    private static final String ENCODED_URL_2="encodedUrl2";
-
     private static final String PROT_STR="http://";
+    private static final String ORIGINAL_URL_1=PROT_STR +"originalUrl1.com";
+    private static final String ENCODED_URL_1=PROT_STR +"encodedUrl1.com";
+    private static final String ORIGINAL_URL_2="originalUrl2.com";
+    private static final String ENCODED_URL_2="encodedUrl2.com";
+
+
+    private static final String PROT_S_STR="https://";
 
     @Autowired
     private UrlEncoderDecoderServiceImpl urlEncoderDecoderService;
@@ -65,7 +67,7 @@ class UrlEncoderDecoderServiceImplTest {
     }
     @Test
     void whenTheUrlIsNeededTobeEncodedIfItIsNotAlreadyStoredThenReturnTtFromDB() throws Exception{
-        when(this.urlDecodeDto.getDecodedUrl()).thenReturn(ORIGINAL_URL_2);
+        when(this.urlDecodeDto.getDecodedUrl()).thenReturn(PROT_STR+ORIGINAL_URL_2);
         when(this.urlShortRepository.countByOriginalUrl(ORIGINAL_URL_2)).thenReturn(Integer.valueOf(0));
         when(this.urlShortEncoderService.encodeUrl(ORIGINAL_URL_2)).thenReturn(ENCODED_URL_2);
         when(this.urlShort.getGeneratedUrl()).thenReturn(ENCODED_URL_2);
